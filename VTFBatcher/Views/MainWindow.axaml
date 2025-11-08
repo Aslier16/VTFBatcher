@@ -83,6 +83,11 @@
                                     <CheckBox Content="Louis" IsChecked="{Binding PresetLouis}" />
                                     <CheckBox Content="Zoey" IsChecked="{Binding PresetZoey}" />
                                     <CheckBox Content="Francis" IsChecked="{Binding PresetFrancis}" />
+                                    <Separator HorizontalAlignment="Stretch" />
+                                    <TextBlock Text="Generate:"></TextBlock>
+                                    <CheckBox Content="Lobby Icon" ToolTip.Tip="ex. s_panel_lobby_gambler.vtf(L4D2),select_bill.vtf(L4D1)" IsChecked="{Binding IfGenerateLobbyIcon}" />
+                                    <CheckBox Content="Incap Icon" ToolTip.Tip="ex. s_panel_gambler_incap.vtf" IsChecked="{Binding IfGenerateInCapIcon}" />
+                                    <CheckBox Content="HUD Icon" ToolTip.Tip="ex. s_panel_gambler.vtf" IsChecked="{Binding IfGenerateHUDIcon}"/>
                                 </StackPanel>
                             </Expander>
                         </StackPanel>

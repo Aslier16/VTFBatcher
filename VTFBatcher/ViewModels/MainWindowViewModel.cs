@@ -62,10 +62,17 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private bool _presetAvailable = false;
     [ObservableProperty] private PresetEnum _selectedPreset = PresetEnum.None;
     [ObservableProperty] private Dictionary<string, PresetEnum> _presets = new();
-    
+
+    // Preset settings
     [ObservableProperty] private bool _ifSaveVTFWithTheSameNameAsSource = false;
     [ObservableProperty] private bool _ifCreateSubfolders = true;
     
+    // Character VGUI settings
+    [ObservableProperty] private bool _ifGenerateLobbyIcon = true;
+    [ObservableProperty] private bool _ifGenerateInCapIcon = true;
+    [ObservableProperty] private bool _ifGenerateHUDIcon = true;
+    
+
 
     public bool PresetNick
     {
@@ -226,6 +233,29 @@ public partial class MainWindowViewModel : ViewModelBase
             }
         }
 
+        // 创建预设设置
+        PresetSetting presetSetting = new PresetSetting();
+        if (IfSaveVTFWithTheSameNameAsSource)
+        {
+            presetSetting |= PresetSetting.IfSaveVTFWithTheSameNameAsSource;
+        }
+        if (IfCreateSubfolders)
+        {
+            presetSetting |= PresetSetting.IfCreateSubfolders;
+        }
+        if (IfGenerateLobbyIcon)
+        {
+            presetSetting |= PresetSetting.IfGenerateLobbyIcon;
+        }
+        if (IfGenerateInCapIcon)
+        {
+            presetSetting |= PresetSetting.IfGenerateInCapIcon;
+        }
+        if (IfGenerateHUDIcon)
+        {
+            presetSetting |= PresetSetting.IfGenerateHUDIcon;
+        }
+
         foreach (var path in PicturePaths)
         {
             if (!String.IsNullOrEmpty(path) && !errorDic.ContainsKey(path) &&
@@ -238,7 +268,11 @@ public partial class MainWindowViewModel : ViewModelBase
                     {
                         foreach (var flag in EnumHelper.GetFlags(preset))
                         {
-                            PresetOpreation.PresetActions[flag](outputFile);
+                            PresetOpreation.PresetActions[flag](outputFile, presetSetting);
+                        }
+                        if (!IfSaveVTFWithTheSameNameAsSource)
+                        {
+                            File.Delete(outputFile);
                         }
                     }
                     catch (Exception e)
@@ -373,7 +407,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
         foreach (var path in paths.Cast<string>())
         {
-            OpenDirectoryAsync(Path.GetDirectoryName(path));
+            await OpenDirectoryAsync(Path.GetDirectoryName(path));
         }
     }
 

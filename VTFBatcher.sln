@@ -17,6 +17,5 @@ Global
 		{C4FF3246-F211-4848-88DD-5EC64FD79ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4FF3246-F211-4848-88DD-5EC64FD79ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4FF3246-F211-4848-88DD-5EC64FD79ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4FF3246-F211-4848-88DD-5EC64FD79ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

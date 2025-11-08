@@ -8,7 +8,7 @@ namespace VTFBatcher.Models;
 
 public static class PresetOpreation
 {
-    public static Dictionary<PresetEnum, Action<string>> PresetActions = new()
+    public static Dictionary<PresetEnum, Action<string, PresetSetting>> PresetActions = new()
     {
         { PresetEnum.Nick, ApplyNickPreset },
         { PresetEnum.Ellis, ApplyEllisPreset },
@@ -20,56 +20,75 @@ public static class PresetOpreation
         { PresetEnum.Francis, ApplyFrancisPreset },
     };
 
-    private static void ApplyNickPreset(string filePath)
+    private static void ApplyNickPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_gambler", "s_panel_gambler_incap", "s_panel_lobby_gambler");
+        CreateCharacterVGUI(filePath, "s_panel_gambler", "s_panel_gambler_incap", "s_panel_lobby_gambler",
+            presetSetting);
     }
 
-    private static void ApplyEllisPreset(string filePath)
+    private static void ApplyEllisPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_mechanic", "s_panel_mechanic_incap", "s_panel_lobby_mechanic");
+        CreateCharacterVGUI(filePath, "s_panel_mechanic", "s_panel_mechanic_incap", "s_panel_lobby_mechanic",
+            presetSetting);
     }
 
-    private static void ApplyRochellePreset(string filePath)
+    private static void ApplyRochellePreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_producer", "s_panel_producer_incap", "s_panel_lobby_producer");
+        CreateCharacterVGUI(filePath, "s_panel_producer", "s_panel_producer_incap", "s_panel_lobby_producer",
+            presetSetting);
     }
 
-    private static void ApplyCoachPreset(string filePath)
+    private static void ApplyCoachPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_coach", "s_panel_coach_incap", "s_panel_lobby_coach");
+        CreateCharacterVGUI(filePath, "s_panel_coach", "s_panel_coach_incap", "s_panel_lobby_coach", presetSetting);
     }
 
-    private static void ApplyBillPreset(string filePath)
+    private static void ApplyBillPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_namvet", "s_panel_namvet_incap", "select_bill");
+        CreateCharacterVGUI(filePath, "s_panel_namvet", "s_panel_namvet_incap", "select_bill", presetSetting);
     }
 
-    private static void ApplyLouisPreset(string filePath)
+    private static void ApplyLouisPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_manager", "s_panel_manager_incap", "select_louis");
+        CreateCharacterVGUI(filePath, "s_panel_manager", "s_panel_manager_incap", "select_louis", presetSetting);
     }
 
-    private static void ApplyZoeyPreset(string filePath)
+    private static void ApplyZoeyPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_teenangst", "s_panel_teenangst_incap", "select_zoey");
+        CreateCharacterVGUI(filePath, "s_panel_teenangst", "s_panel_teenangst_incap", "select_zoey", presetSetting);
     }
 
-    private static void ApplyFrancisPreset(string filePath)
+    private static void ApplyFrancisPreset(string filePath, PresetSetting presetSetting)
     {
-        CreateCharacterVGUI(filePath, "s_panel_biker", "s_panel_biker_incap", "select_francis");
+        CreateCharacterVGUI(filePath, "s_panel_biker", "s_panel_biker_incap", "select_francis", presetSetting);
     }
 
     // ReSharper disable once InconsistentNaming
-    private static void CreateCharacterVGUI(string vtffile, string vgui1, string vgui2, string vgui3)
+    private static void CreateCharacterVGUI(string vtffile, string vgui1, string vgui2, string vgui3,
+        PresetSetting presetSetting = PresetSetting.None)
     {
         if (!File.Exists(vtffile)) throw new FileNotFoundException("VTF file not found.", vtffile);
 
         var dir = Path.GetDirectoryName(vtffile);
         if (dir == null) throw new DirectoryNotFoundException("Directory not found for the given VTF file.");
 
-        File.Copy(vtffile, Path.Combine(dir, vgui1 + ".vtf"), true);
-        File.Copy(vtffile, Path.Combine(dir, vgui2 + ".vtf"), true);
-        File.Copy(vtffile, Path.Combine(dir, vgui3 + ".vtf"), true);
+        if (presetSetting.HasFlag(PresetSetting.IfCreateSubfolders))
+        {
+            dir = Path.Combine(dir, "materials/vgui/");
+            Directory.CreateDirectory(dir);
+        }
+
+        if (presetSetting.HasFlag(PresetSetting.IfGenerateHUDIcon))
+            File.Copy(vtffile, Path.Combine(dir, vgui1 + ".vtf"), true);
+        if (presetSetting.HasFlag(PresetSetting.IfGenerateInCapIcon))
+            File.Copy(vtffile, Path.Combine(dir, vgui2 + ".vtf"), true);
+        if (presetSetting.HasFlag(PresetSetting.IfGenerateLobbyIcon))
+            File.Copy(vtffile, Path.Combine(dir, vgui3 + ".vtf"), true);
+
+        // IfSaveVTFWithTheSameNameAsSource设置的执行交由VM处理，这里删除会让其他预设没有源文件可用
+        // if (!presetSetting.HasFlag(PresetSetting.IfSaveVTFWithTheSameNameAsSource))
+        // {
+        //     File.Delete(vtffile);
+        // }
     }
 }

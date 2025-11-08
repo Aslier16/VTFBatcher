@@ -14,8 +14,11 @@ public static class SettingsPersistence
 
     private class SettingsDto
     {
+        // Normal settings
         public int SelectedNormalFormatIndex { get; set; }
         public int SelectedAlphaFormatIndex { get; set; }
+        
+        // Resize settings
         public bool IfResize { get; set; }
         public bool IfClamp { get; set; }
         public int SelectedResizeMethodIndex { get; set; }
@@ -23,9 +26,16 @@ public static class SettingsPersistence
         public int SelectedResizeSharpenFilterIndex { get; set; }
         public int SelectedMaximumWidthIndex { get; set; }
         public int SelectedMaximumHeightIndex { get; set; }
+        
+        // Mipmap settings
         public bool IfGenerateMipmaps { get; set; }
         public int SelectedMipmapFilterIndex { get; set; }
         public int SelectedMipmapSharpenFilterIndex { get; set; }
+        
+        // Preset settings
+        public bool IfSaveVTFWithTheSameNameAsSource { get; set; }
+        public bool IfCreateSubfolders { get; set; }
+        
         public string? Version { get; set; }
         public string? OutputDirectory { get; set; }
     }
@@ -38,6 +48,7 @@ public static class SettingsPersistence
             {
                 SelectedNormalFormatIndex = vm.SelectedNormalFormatIndex,
                 SelectedAlphaFormatIndex = vm.SelectedAlphaFormatIndex,
+                
                 IfResize = vm.IfResize,
                 IfClamp = vm.IfClamp,
                 SelectedResizeMethodIndex = vm.SelectedResizeMethodIndex,
@@ -45,9 +56,14 @@ public static class SettingsPersistence
                 SelectedResizeSharpenFilterIndex = vm.SelectedResizeSharpenFilterIndex,
                 SelectedMaximumWidthIndex = vm.SelectedMaximumWidthIndex,
                 SelectedMaximumHeightIndex = vm.SelectedMaximumHeightIndex,
+                
                 IfGenerateMipmaps = vm.IfGenerateMipmaps,
                 SelectedMipmapFilterIndex = vm.SelectedMipmapFilterIndex,
                 SelectedMipmapSharpenFilterIndex = vm.SelectedMipmapSharpenFilterIndex,
+                
+                IfSaveVTFWithTheSameNameAsSource = vm.IfSaveVTFWithTheSameNameAsSource,
+                IfCreateSubfolders = vm.IfCreateSubfolders,
+                
                 Version = vm.Version,
                 OutputDirectory = vm.OutputDirectory,
             };
@@ -71,6 +87,7 @@ public static class SettingsPersistence
 
             vm.SelectedNormalFormatIndex = dto.SelectedNormalFormatIndex;
             vm.SelectedAlphaFormatIndex = dto.SelectedAlphaFormatIndex;
+            
             vm.IfResize = dto.IfResize;
             vm.IfClamp = dto.IfClamp;
             vm.SelectedResizeMethodIndex = dto.SelectedResizeMethodIndex;
@@ -78,9 +95,14 @@ public static class SettingsPersistence
             vm.SelectedResizeSharpenFilterIndex = dto.SelectedResizeSharpenFilterIndex;
             vm.SelectedMaximumWidthIndex = dto.SelectedMaximumWidthIndex;
             vm.SelectedMaximumHeightIndex = dto.SelectedMaximumHeightIndex;
+            
             vm.IfGenerateMipmaps = dto.IfGenerateMipmaps;
             vm.SelectedMipmapFilterIndex = dto.SelectedMipmapFilterIndex;
             vm.SelectedMipmapSharpenFilterIndex = dto.SelectedMipmapSharpenFilterIndex;
+            
+            vm.IfSaveVTFWithTheSameNameAsSource = dto.IfSaveVTFWithTheSameNameAsSource;
+            vm.IfCreateSubfolders = dto.IfCreateSubfolders;
+            
             if (!string.IsNullOrWhiteSpace(dto.Version)) vm.Version = dto.Version;
             if (!string.IsNullOrWhiteSpace(dto.OutputDirectory)) vm.OutputDirectory = dto.OutputDirectory;
         }
