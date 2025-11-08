@@ -41,4 +41,8 @@
     <ItemGroup>
       <ClCompile Include="Enums\enumerations.c" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Lang\" />
+    </ItemGroup>
 </Project>

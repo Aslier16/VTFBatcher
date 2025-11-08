@@ -62,6 +62,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private bool _presetAvailable = false;
     [ObservableProperty] private PresetEnum _selectedPreset = PresetEnum.None;
     [ObservableProperty] private Dictionary<string, PresetEnum> _presets = new();
+    
+    [ObservableProperty] private bool _ifSaveVTFWithTheSameNameAsSource = false;
+    [ObservableProperty] private bool _ifCreateSubfolders = true;
+    
 
     public bool PresetNick
     {
