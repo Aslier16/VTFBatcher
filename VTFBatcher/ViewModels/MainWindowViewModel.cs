@@ -73,6 +73,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private bool _ifGenerateHUDIcon = true;
     
 
+    //List Setting
+    [ObservableProperty] private bool _ifShowPath = true;
+    [ObservableProperty] private bool _ifShowPreviewImage = true;
+    [ObservableProperty] private int _previewImageHeight = 100;
 
     public bool PresetNick
     {
